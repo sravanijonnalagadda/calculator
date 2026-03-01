@@ -14,14 +14,16 @@
  *   - Handles clear (C) and equals (=) operations
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from './Button';
 import Display from './Display';
+import History from './History';
 import { parseExpression } from '../utils/expressionParser';
 import '../styles/calculator.css';
 
 const Calculator = () => {
   const [expression, setExpression] = useState('0');
+  const [history, setHistory] = useState([]);
 
   const handleButtonClick = (value) => {
     // When the current expression is an error, reset before adding
@@ -56,11 +58,61 @@ const Calculator = () => {
   const handleEquals = () => {
     try {
       const result = parseExpression(expression);
-      setExpression(String(result));
+      const resStr = String(result);
+      setExpression(resStr);
+
+      // update history
+      const entry = { expr: expression, result: resStr };
+      setHistory((prev) => {
+        const next = [entry, ...prev];
+        if (next.length > 5) next.pop();
+        return next;
+      });
     } catch (e) {
       setExpression('Error');
     }
   };
+
+  // load history on mount
+  useEffect(() => {
+    const stored = localStorage.getItem('calcHistory');
+    if (stored) {
+      try {
+        setHistory(JSON.parse(stored));
+      } catch {}
+    }
+  }, []);
+
+  // persist history when it changes
+  useEffect(() => {
+    localStorage.setItem('calcHistory', JSON.stringify(history));
+  }, [history]);
+
+  // keyboard input support
+  useEffect(() => {
+    const keyMap = {
+      '0':'0','1':'1','2':'2','3':'3','4':'4','5':'5','6':'6','7':'7','8':'8','9':'9',
+      '+':'+','-':'-','*':'*','/':'/','(':'(',')':')','.':'.'
+    };
+    const onKey = (e) => {
+      const { key } = e;
+      if (key === 'Enter') {
+        handleEquals();
+        e.preventDefault();
+      } else if (key === 'Backspace') {
+        setExpression((expr) => expr.slice(0, -1) || '0');
+        e.preventDefault();
+      } else if (key === 'Escape') {
+        handleClear();
+        e.preventDefault();
+      } else if (keyMap[key]) {
+        handleButtonClick(keyMap[key]);
+        e.preventDefault();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [expression]);
 
   return (
     <div className="calculator">
@@ -96,6 +148,11 @@ const Calculator = () => {
         <Button value="=" type="special" onClick={handleEquals} />
         <div></div> {/* empty placeholder to keep grid alignment */}
       </div>
+      <History
+        history={history}
+        onSelect={(expr) => setExpression(expr)}
+        onClear={() => setHistory([])}
+      />
     </div>
   );
 };

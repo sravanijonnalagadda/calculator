@@ -1,0 +1,51 @@
+Project Work Document
+====================
+
+This document records all actions taken by the Copilot assistant so far in the React Calculator project.
+
+1. **Project Initialization**
+   - Confirmed workspace structure under `react-calculator`.
+   - Verified `package.json` dependencies (React 19.2.4, testing libs).
+   - Created directories: `src/components`, `src/utils`, `src/styles`.
+
+2. **Component & Utility Files**
+   - Added `Button.jsx`, `Display.jsx`, and `Calculator.jsx` in `src/components`.
+   - Created `expressionParser.js` in `src/utils` with tokenizer, Shunting Yard, and evaluator.
+   - Developed `calculator.css` in `src/styles` with dark theme and responsive layout.
+   - CSS Grid for buttons, flex container for overall layout
+   - Hover, active, focus-visible states, rounded corners, and color contrast
+   - Mobile media queries for smaller screens and responsive font sizes
+   - Error color class and accessible `aria-live` support in Display
+   - Updated `Display.jsx` to include error styling, accessibility features.
+
+3. **Parser Implementation**
+   - Implemented `tokenize()`, `infixToPostfix()`, `evaluatePostfix()`.
+   - Added `parseExpression()` as entry point returning number or 'Error'.
+   - Handled decimals, parentheses, operator precedence, division by zero.
+
+4. **Git Operations**
+   - Added and committed files; created branch and pushed to GitHub repository.
+   - Set remote origin to `https://github.com/sravanijonnalagadda/calculator.git`.
+   - Pushed master branch successfully.
+   - Provided commands for branch creation (`feature/task3-7`).
+
+5. **Task Tracking**
+   - Maintained a todo list via `manage_todo_list` tool reflecting task statuses.
+
+6. **Parser Tests**
+   - Added `expressionParser.test.js` verifying arithmetic operations, precedence, parentheses, decimals, division by zero, and invalid inputs.
+   - Extended `Calculator.test.js` to cover history functionality and keyboard input.
+
+7. **Keyboard Support and History Feature**
+   - Keyboard input added via `keydown` listener in `Calculator.jsx` (numbers, operators, Enter, Backspace, Escape).
+   - Implemented history state within `Calculator`, stored in `localStorage`.
+   - Created `History.jsx` component showing last 5 calculations, clickable to restore expression, with clear button.
+   - Added corresponding styles in `calculator.css`.
+
+6. **Other Files**
+   - Created `work document.txt` at user request and logged this summary here.
+
+
+Current status: Tasks 1–3 are complete; tasks 4–7 in progress. Testing and enhancements pending.
+
+Feel free to update or extend this document as the project continues.

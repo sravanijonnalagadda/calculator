@@ -34,4 +34,26 @@ describe('Calculator integration', () => {
     fireEvent.click(screen.getByRole('button', { name: /C/i }));
     expect(screen.getByText('0')).toBeInTheDocument();
   });
+
+  test('history updates after calculations and restores', () => {
+    render(<Calculator />);
+    fireEvent.click(screen.getByRole('button', { name: /2/i }));
+    fireEvent.click(screen.getByRole('button', { name: /\*/i }));
+    fireEvent.click(screen.getByRole('button', { name: /3/i }));
+    fireEvent.click(screen.getByRole('button', { name: /=/i }));
+    // history entry should appear
+    expect(screen.getByText(/2\*3 = 6/)).toBeInTheDocument();
+    // click history should restore expression
+    fireEvent.click(screen.getByText(/2\*3 = 6/));
+    expect(screen.getByText('2*3')).toBeInTheDocument();
+  });
+
+  test('keyboard input works (Enter equals)', () => {
+    render(<Calculator />);
+    fireEvent.keyDown(window, { key: '5' });
+    fireEvent.keyDown(window, { key: '+' });
+    fireEvent.keyDown(window, { key: '4' });
+    fireEvent.keyDown(window, { key: 'Enter' });
+    expect(screen.getByText('9')).toBeInTheDocument();
+  });
 });

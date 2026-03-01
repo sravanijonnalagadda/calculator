@@ -126,6 +126,49 @@
   color: #ff4444;
 }
 
+/* History Sidebar Styles */
+.calculator-history {
+  margin-top: 1rem;
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: #fff;
+  font-size: 0.9rem;
+}
+.calculator-history .history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.calculator-history .history-clear {
+  background: transparent;
+  border: none;
+  color: #ff4444;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.calculator-history .history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+.calculator-history .history-list li {
+  padding: 0.25rem 0;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+}
+.calculator-history .history-list li:hover {
+  background: #2a2a2a;
+}
+.calculator-history .history-empty {
+  text-align: center;
+  color: #777;
+  padding: 0.5rem 0;
+}
+
 /* Responsive Design for Mobile */
 @media (max-width: 480px) {
   .calculator {
