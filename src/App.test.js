@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders calculator component', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  // calculator display should start with 0 (use selector to avoid button text)
+  expect(screen.getByText('0', { selector: '.calculator-display__content' })).toBeInTheDocument();
 });

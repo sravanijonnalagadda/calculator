@@ -4,7 +4,8 @@ import Calculator from './Calculator';
 describe('Calculator integration', () => {
   test('renders display and buttons', () => {
     render(<Calculator />);
-    expect(screen.getByText('0')).toBeInTheDocument();
+    // ensure display contains 0
+    expect(screen.getByText('0', { selector: '.calculator-display__content' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /1/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /=/i })).toBeInTheDocument();
   });
@@ -15,7 +16,7 @@ describe('Calculator integration', () => {
     fireEvent.click(screen.getByRole('button', { name: /\+/i }));
     fireEvent.click(screen.getByRole('button', { name: /3/i }));
     fireEvent.click(screen.getByRole('button', { name: /=/i }));
-    expect(screen.getByText('5')).toBeInTheDocument();
+    expect(screen.getByText('5', { selector: '.calculator-display__content' })).toBeInTheDocument();
   });
 
   test('prevents operator stacking', () => {
@@ -25,14 +26,14 @@ describe('Calculator integration', () => {
     fireEvent.click(screen.getByRole('button', { name: /\+/i }));
     fireEvent.click(screen.getByRole('button', { name: /2/i }));
     fireEvent.click(screen.getByRole('button', { name: /=/i }));
-    expect(screen.getByText('7')).toBeInTheDocument();
+    expect(screen.getByText('7', { selector: '.calculator-display__content' })).toBeInTheDocument();
   });
 
   test('clear button resets', () => {
     render(<Calculator />);
     fireEvent.click(screen.getByRole('button', { name: /1/i }));
-    fireEvent.click(screen.getByRole('button', { name: /C/i }));
-    expect(screen.getByText('0')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'C' }));
+    expect(screen.getByText('0', { selector: '.calculator-display__content' })).toBeInTheDocument();
   });
 
   test('history updates after calculations and restores', () => {
@@ -54,6 +55,8 @@ describe('Calculator integration', () => {
     fireEvent.keyDown(window, { key: '+' });
     fireEvent.keyDown(window, { key: '4' });
     fireEvent.keyDown(window, { key: 'Enter' });
-    expect(screen.getByText('9')).toBeInTheDocument();
+    // use first match which is display element
+    const matches = screen.getAllByText('9');
+    expect(matches[0]).toHaveClass('calculator-display__content');
   });
 });
