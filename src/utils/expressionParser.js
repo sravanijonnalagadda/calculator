@@ -133,54 +133,8 @@ const infixToPostfix = (tokens) => {
  * @returns {number} Result of evaluation
  */
 const evaluatePostfix = (postfixTokens) => {
-  const stack = [];
-
-  for (let i = 0; i < postfixTokens.length; i++) {
-    const token = postfixTokens[i];
-
-    // If token is a number, push to stack
-    if (typeof token === 'number') {
-      stack.push(token);
-    }
-    // If token is an operator
-    else if (typeof token === 'string' && '+-*/'.includes(token)) {
-      if (stack.length < 2) {
-        throw new Error('Invalid expression');
-      }
-
-      const b = stack.pop();
-      const a = stack.pop();
-
-      let result;
-      switch (token) {
-        case '+':
-          result = a + b;
-          break;
-        case '-':
-          result = a - b;
-          break;
-        case '*':
-          result = a * b;
-          break;
-        case '/':
-          if (b === 0) {
-            throw new Error('Division by zero');
-          }
-          result = a / b;
-          break;
-        default:
-          throw new Error('Unknown operator: ' + token);
-      }
-
-      stack.push(result);
-    }
-  }
-
-  if (stack.length !== 1) {
-    throw new Error('Invalid expression');
-  }
-
-  return stack[0];
+  // TO BE IMPLEMENTED
+  return 0;
 };
 
 /**
@@ -190,27 +144,8 @@ const evaluatePostfix = (postfixTokens) => {
  */
 export const parseExpression = (expr) => {
   try {
-    // Handle empty input
-    if (!expr || expr.trim() === '') {
-      return 'Error';
-    }
-
-    // Tokenize the expression
-    const tokens = tokenize(expr);
-
-    // Validate tokens
-    if (tokens.length === 0) {
-      return 'Error';
-    }
-
-    // Convert to postfix notation
-    const postfixTokens = infixToPostfix(tokens);
-
-    // Evaluate postfix expression
-    const result = evaluatePostfix(postfixTokens);
-
-    // Round to avoid floating point errors
-    return Math.round(result * 100000000) / 100000000;
+    // TO BE IMPLEMENTED
+    return 'Error';
   } catch (e) {
     return 'Error';
   }
@@ -221,4 +156,6 @@ export default {
   tokenize,
   infixToPostfix,
   evaluatePostfix
-};
+};  
+
+
